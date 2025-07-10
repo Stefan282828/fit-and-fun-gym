@@ -1,2 +1,2 @@
-# -fit-and-fun-gym
+# fit-and-fun-gym
 Project for gym using spring boot   
