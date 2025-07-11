@@ -68,4 +68,10 @@ public class UserController {
     public ResponseEntity<UserTrPlanExResponseDto> getTrPlanExercises (@PathVariable Long userId){
         return ResponseEntity.ok(userTrainingPlanService.getTrPlanExercises(userId));
     }
+
+    @PutMapping(value = "/users/finishTrainingPlan/{userId}")
+    public ResponseEntity<String> finishTrainingPlan(@PathVariable Long userId){
+        userService.finishTrainingPlan(userId);
+        return ResponseEntity.ok("You finished your training plan. Congrats!");
+    }
 }

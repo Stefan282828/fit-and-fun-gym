@@ -29,7 +29,17 @@ public class UserTrainingPlanValidator {
     public void hasActivePlan(Long id){
         Optional<UserTrainingPlan> userActivePlan = userTrainingPlanRepository.findByUser_IdAndStatus(id, Status.ACTIVE);
         if(userActivePlan.isPresent()){
-            throw new BadRequestException(String.format("User with id %s already has an active training plan", id));
+            Long activeTrPlanId = userActivePlan.get().getTrainingPlan().getId();
+            throw new BadRequestException(String.format("User with id %s already has an active training plan with id %s", id, activeTrPlanId));
         }
     }
+
+    public void doesHaveActivePlan(Long id){
+        Optional<UserTrainingPlan> userActivePlan = userTrainingPlanRepository.findByUser_IdAndStatus(id, Status.ACTIVE);
+        if(userActivePlan.isEmpty()){
+            throw new BadRequestException(String.format("User with id %s does not have an active training plan", id));
+        }
+    }
+
+
 }

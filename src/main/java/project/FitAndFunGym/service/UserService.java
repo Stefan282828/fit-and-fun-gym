@@ -144,4 +144,12 @@ public class UserService {
         userTrainingPlanRepository.save(userTrainingPlan);
     }
 
+    @Transactional
+    public void finishTrainingPlan(Long userId){
+        userValidator.doesExistById(userId);
+        userTrainingPlanValidator.doesHaveActivePlan(userId);
+        UserTrainingPlan activePlan = userTrainingPlanRepository.findByUser_IdAndStatus(userId,Status.ACTIVE).get();
+        activePlan.setStatus(Status.FINISHED);
+    }
+
 }
