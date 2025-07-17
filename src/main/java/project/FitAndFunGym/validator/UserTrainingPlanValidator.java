@@ -20,7 +20,7 @@ public class UserTrainingPlanValidator {
     }
 
     public void doesContainsTrPlan(Long userId){
-        userValidator.doesExistById(userId);
+        userValidator.doesExist(userId);
         if(Boolean.FALSE.equals(userTrainingPlanRepository.existsByUser_Id(userId))){
             throw new BadRequestException(String.format("User with id %s does not contain training plan", userId));
         }

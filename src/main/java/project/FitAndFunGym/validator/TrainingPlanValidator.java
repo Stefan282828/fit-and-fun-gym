@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import project.FitAndFunGym.entity.TrainingPlan;
 import project.FitAndFunGym.exception.BadRequestException;
 import project.FitAndFunGym.repository.TrainingPlanRepository;
+import project.FitAndFunGym.util.ValidateUtil;
 
 import java.util.Objects;
 
@@ -16,8 +17,8 @@ public class TrainingPlanValidator {
         this.trainingPlanRepository = trainingPlanRepository;
     }
 
-    public void doesExistById(Long id){
-        IsValidValidator.isValidId(id);
+    public void doesExist(Long id){
+        ValidateUtil.isValid(id);
         if(Boolean.FALSE.equals(trainingPlanRepository.existsById(id))){
             throw new BadRequestException(String.format("Training plan with id %s not found", id));
         }
@@ -37,10 +38,10 @@ public class TrainingPlanValidator {
     }
 
     public void validCreate(TrainingPlan trainingPlan){
-        StringValidator.validateString(trainingPlan.getName(), "name");
-        StringValidator.validateString(trainingPlan.getGoal(), "goal");
-        StringValidator.validateString(trainingPlan.getDifficulty(), "difficulty");
-        StringValidator.validateString(trainingPlan.getDuration(), "duration");
+        ValidateUtil.isValid(trainingPlan.getName(), "name");
+        ValidateUtil.isValid(trainingPlan.getGoal(), "goal");
+        ValidateUtil.isValid(trainingPlan.getDifficulty(), "difficulty");
+        ValidateUtil.isValid(trainingPlan.getDuration(), "duration");
         alreadyExists(trainingPlan);
     }
 }

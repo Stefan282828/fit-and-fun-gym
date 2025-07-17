@@ -3,13 +3,12 @@ package project.FitAndFunGym.validator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import project.FitAndFunGym.entity.Exercise;
-import project.FitAndFunGym.entity.TrainingPlan;
 import project.FitAndFunGym.exception.BadRequestException;
 import project.FitAndFunGym.repository.ExerciseRepository;
+import project.FitAndFunGym.util.ValidateUtil;
 
 import java.util.Collection;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class ExerciseValidator {
@@ -20,10 +19,17 @@ public class ExerciseValidator {
         this.exerciseRepository = exerciseRepository;
     }
 
-    public void doesExistById(Long id){
-        IsValidValidator.isValidId(id);
+    public void doesExist(Long id){
+        ValidateUtil.isValid(id);
         if(Boolean.FALSE.equals(exerciseRepository.existsById(id))){
             throw new BadRequestException(String.format("Exercise with id %s not found", id));
+        }
+    }
+
+    public void doesExist(String name){
+        ValidateUtil.isValid(name, "Exercise name");
+        if(Boolean.FALSE.equals(exerciseRepository.existsByName(name))){
+            throw new BadRequestException(String.format("Exercise with name %s not found", name));
         }
     }
 
@@ -41,13 +47,13 @@ public class ExerciseValidator {
     }
 
     public void validCreate(Exercise exercise){
-        StringValidator.validateString(exercise.getName(), "name");
-        StringValidator.validateString(exercise.getDescription(), "description");
-        StringValidator.validateString(exercise.getMuscleGroup(), "muscle group");
+        ValidateUtil.isValid(exercise.getName(), "name");
+        ValidateUtil.isValid(exercise.getDescription(), "description");
+        ValidateUtil.isValid(exercise.getMuscleGroup(), "muscle group");
         alreadyExists(exercise);
     }
 
-    public void areValidExercises(Collection<Exercise> exercises){
+    public void validExercises(Collection<Exercise> exercises){
         if(CollectionUtils.isEmpty(exercises)){
             throw new BadRequestException("Exercises cannot be empty");
         }

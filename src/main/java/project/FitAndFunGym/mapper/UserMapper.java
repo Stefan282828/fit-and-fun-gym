@@ -48,7 +48,7 @@ public class UserMapper {
 
     public static List<UserResponseDto> toDtoList (List<User> userList){
         if (ObjectUtils.isEmpty(userList)){
-            throw new BadRequestException("UserRequestDto list is null");
+            throw new BadRequestException("User list is null");
         }
         return userList.stream().map(UserMapper::toDto).toList();
     }

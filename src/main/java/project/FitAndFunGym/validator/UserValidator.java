@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import project.FitAndFunGym.dto.UserDto.UserRequestDto;
 import project.FitAndFunGym.exception.BadRequestException;
 import project.FitAndFunGym.repository.UserRepository;
+import project.FitAndFunGym.util.ValidateUtil;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -24,15 +25,15 @@ public class UserValidator {
         }
     }
 
-    public void doesExistById(Long id){
-        IsValidValidator.isValidId(id);
+    public void doesExist(Long id){
+        ValidateUtil.isValid(id);
         if(Boolean.FALSE.equals(userRepository.existsById(id))){
             throw new BadRequestException(String.format("User with id %s not found", id));
         }
     }
 
-    public void doesExistByUsername(String username){
-        StringValidator.validateString(username, "username");
+    public void doesExist(String username){
+        ValidateUtil.isValid(username, "username");
         if(Boolean.FALSE.equals(userRepository.existsByUsername(username))){
             throw new UsernameNotFoundException(String.format("User with username %s not found", username));
         }
@@ -52,17 +53,17 @@ public class UserValidator {
     }
 
     public void validCreate(UserRequestDto userRequestDto){
-        StringValidator.validateString(userRequestDto.getName(), "Name");
-        StringValidator.validateString(userRequestDto.getLastName(), "Last name");
-        StringValidator.validateString(userRequestDto.getUsername(), "Username");
-        StringValidator.validateString(userRequestDto.getEmail(), "Email");
-        StringValidator.validateString(userRequestDto.getPassword(), "Password");
+        ValidateUtil.isValid(userRequestDto.getName(), "Name");
+        ValidateUtil.isValid(userRequestDto.getLastName(), "Last name");
+        ValidateUtil.isValid(userRequestDto.getUsername(), "Username");
+        ValidateUtil.isValid(userRequestDto.getEmail(), "Email");
+        ValidateUtil.isValid(userRequestDto.getPassword(), "Password");
         validateDateOfBirth(userRequestDto.getDateOfBirth());
         alreadyExists(userRequestDto);
     }
 
     public void validUpdate(UserRequestDto userRequestDto){
-        doesExistById(userRequestDto.getId());
+        doesExist(userRequestDto.getId());
         alreadyExists(userRequestDto);
     }
 

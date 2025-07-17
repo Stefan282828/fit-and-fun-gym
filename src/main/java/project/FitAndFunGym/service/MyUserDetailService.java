@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import project.FitAndFunGym.entity.User;
-import project.FitAndFunGym.entity.UserPrincipal;
 import project.FitAndFunGym.repository.UserRepository;
 import project.FitAndFunGym.validator.UserValidator;
 
@@ -28,7 +27,7 @@ public class MyUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        userValidator.doesExistByUsername(username);
+        userValidator.doesExist(username);
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),

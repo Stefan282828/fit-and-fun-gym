@@ -1,6 +1,7 @@
 package project.FitAndFunGym.controller;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.FitAndFunGym.dto.UserDto.UserRequestDto;
@@ -35,7 +36,7 @@ public class UserController {
 
     @PostMapping(value = "/users/addUser")
     public ResponseEntity<UserResponseDto> addUser(@RequestBody UserRequestDto userRequestDto) {
-        return ResponseEntity.ok(userService.createUser(userRequestDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequestDto));
     }
 
     @DeleteMapping(value = "/users/deleteById")
@@ -53,8 +54,8 @@ public class UserController {
     public ResponseEntity<Page<UserResponseDto>> search (@RequestBody UserRequestDto userRequestDto,
                                                          @RequestParam(name = "page", defaultValue = "0") int page,
                                                          @RequestParam(name = "size", defaultValue = "2") int size,
-                                                         String sortField,
-                                                         String sortDirection){
+                                                         @RequestParam(name = "sortField", defaultValue = "id") String sortField,
+                                                         @RequestParam(name = "sortDirection", defaultValue = "ASC") String sortDirection){
         return ResponseEntity.ok(userService.searchUsers(userRequestDto, page, size, sortField, sortDirection));
     }
 

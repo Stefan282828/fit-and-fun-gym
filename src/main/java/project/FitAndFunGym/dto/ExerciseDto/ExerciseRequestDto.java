@@ -1,35 +1,23 @@
-package project.FitAndFunGym.entity;
+package project.FitAndFunGym.dto.ExerciseDto;
 
-import jakarta.persistence.*;
+import project.FitAndFunGym.entity.TrainingPlan;
 
 import java.util.Set;
 
-@Entity
-@Table(name = "exercise")
-public class Exercise {
+public class ExerciseRequestDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "exercise_seq")
-    @SequenceGenerator(name = "exercise_seq", sequenceName = "exercise_id_seq", allocationSize = 1)
     private Long id;
-    @Column(name = "name")
     private String name;
-    @Column(name = "description")
     private String description;
-    @Column(name = "muscleGroup")
     private String muscleGroup;
-    @ManyToMany(mappedBy = "exercises")
     private Set<TrainingPlan> trainingPlans;
 
-    public Exercise(Long id, String name, String description, String muscleGroup, Set<TrainingPlan> trainingPlans) {
+    public ExerciseRequestDto(Long id, String name, String description, String muscleGroup, Set<TrainingPlan> trainingPlans) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.muscleGroup = muscleGroup;
         this.trainingPlans = trainingPlans;
-    }
-
-    public Exercise(){
     }
 
     public Long getId() {

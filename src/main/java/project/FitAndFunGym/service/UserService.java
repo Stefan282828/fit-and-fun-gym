@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import project.FitAndFunGym.dto.UserDto.UserRequestDto;
 import project.FitAndFunGym.dto.UserDto.UserResponseDto;
 import project.FitAndFunGym.entity.*;
-import project.FitAndFunGym.exception.BadRequestException;
 import project.FitAndFunGym.mapper.UserMapper;
 import project.FitAndFunGym.repository.TrainingPlanRepository;
 import project.FitAndFunGym.repository.UserRepository;
@@ -51,7 +50,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponseDto getById(Long id){
-        userValidator.doesExistById(id);
+        userValidator.doesExist(id);
         User user = userRepository.findById(id).get();
         return UserMapper.toDto(user);
     }
@@ -67,7 +66,7 @@ public class UserService {
 
     @Transactional
     public void deleteUser(Long id){
-        userValidator.doesExistById(id);
+        userValidator.doesExist(id);
         userRepository.deleteById(id);
     }
 
@@ -135,8 +134,8 @@ public class UserService {
 
     @Transactional
     public void assignTrainingPlan(Long userId, Long trainingPlanId){
-        userValidator.doesExistById(userId);
-        trainingPlanValidator.doesExistById(trainingPlanId);
+        userValidator.doesExist(userId);
+        trainingPlanValidator.doesExist(trainingPlanId);
         userTrainingPlanValidator.hasActivePlan(userId);
         User user = userRepository.findById(userId).get();
         TrainingPlan trainingPlan = trainingPlanRepository.findById(trainingPlanId).get();
@@ -146,7 +145,7 @@ public class UserService {
 
     @Transactional
     public void finishTrainingPlan(Long userId){
-        userValidator.doesExistById(userId);
+        userValidator.doesExist(userId);
         userTrainingPlanValidator.doesHaveActivePlan(userId);
         UserTrainingPlan activePlan = userTrainingPlanRepository.findByUser_IdAndStatus(userId,Status.ACTIVE).get();
         activePlan.setStatus(Status.FINISHED);

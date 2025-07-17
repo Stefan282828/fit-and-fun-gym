@@ -1,22 +1,17 @@
 package project.FitAndFunGym.service;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import project.FitAndFunGym.entity.Exercise;
 import project.FitAndFunGym.entity.TrainingPlan;
 import project.FitAndFunGym.exception.BadRequestException;
 import project.FitAndFunGym.repository.ExerciseRepository;
 import project.FitAndFunGym.repository.TrainingPlanRepository;
 import project.FitAndFunGym.validator.ExerciseValidator;
-import project.FitAndFunGym.validator.IsValidValidator;
+import project.FitAndFunGym.util.ValidateUtil;
 import project.FitAndFunGym.validator.TrainingPlanValidator;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Service
@@ -41,7 +36,7 @@ public class TrainingPlanService {
 
     @Transactional(readOnly = true)
     public TrainingPlan getById(Long id){
-        trainingPlanValidator.doesExistById(id);
+        trainingPlanValidator.doesExist(id);
         return trainingPlanRepository.findById(id).get();
     }
 
@@ -54,11 +49,17 @@ public class TrainingPlanService {
 
     @Transactional
     public void addExercises(Set<Exercise> exercises, Long id){
-        IsValidValidator.isValidId(id);
+        ValidateUtil.isValid(id);
         TrainingPlan trainingPlan =trainingPlanRepository.findById(id).orElseThrow(()-> new BadRequestException("Training plan with that id not found"));
-        exerciseValidator.areValidExercises(exercises);
+        exerciseValidator.validExercises(exercises);
         trainingPlan.getExercises().addAll(exercises);
         trainingPlanRepository.save(trainingPlan);
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> getExercisesForTrPlan(String trainingPlanName){
+        ValidateUtil.isValid(trainingPlanName, "Name of the training plan");
+        return trainingPlanRepository.findExercisesByTrPlanName(trainingPlanName);
     }
 
 }

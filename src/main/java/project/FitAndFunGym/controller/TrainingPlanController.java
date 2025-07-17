@@ -1,5 +1,6 @@
 package project.FitAndFunGym.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,14 +33,19 @@ public class TrainingPlanController {
     }
 
     @PostMapping(value = "/trainingPlans/add")
-    public ResponseEntity<TrainingPlan> add(@RequestBody  TrainingPlan trainingPlan){
-        return ResponseEntity.ok(trainingPlanService.create(trainingPlan));
+    public ResponseEntity<TrainingPlan> create(@RequestBody  TrainingPlan trainingPlan){
+        return ResponseEntity.status(HttpStatus.CREATED).body(trainingPlanService.create(trainingPlan));
     }
 
     @PreAuthorize("hasRole('COACH')")
     @PostMapping(value = "/trainingPlans/coach/addExercises")
     public ResponseEntity<String> addExercises(@RequestBody Set<Exercise> exercises, @RequestParam Long trainingPlanId){
         trainingPlanService.addExercises(exercises,trainingPlanId);
-        return ResponseEntity.ok("Added successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Added successfully");
+    }
+
+    @GetMapping(value = "/trainingPlans/getExercisesForTrPlan")
+    public ResponseEntity<List<String>> getExercisesForTrPlan(@RequestParam String trainingPlanName){
+        return ResponseEntity.ok(trainingPlanService.getExercisesForTrPlan(trainingPlanName));
     }
 }

@@ -29,8 +29,8 @@ public class UserTrainingPlanService {
 
     @Transactional
     public void delete (Long userId, Long trainingPlanId){
-         userValidator.doesExistById(userId);
-         trainingPlanValidator.doesExistById(trainingPlanId);
+         userValidator.doesExist(userId);
+         trainingPlanValidator.doesExist(trainingPlanId);
          UserTrainingPlanId userTrainingPlanId = new UserTrainingPlanId(userId, trainingPlanId);
          userTrainingPlanRepository.deleteById(userTrainingPlanId);
     }

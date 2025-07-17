@@ -2,10 +2,13 @@ package project.FitAndFunGym.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.FitAndFunGym.dto.ExerciseDto.ExerciseResponseDto;
 import project.FitAndFunGym.entity.Exercise;
 import project.FitAndFunGym.repository.ExerciseRepository;
 import project.FitAndFunGym.repository.TrainingPlanRepository;
 import project.FitAndFunGym.validator.ExerciseValidator;
+import project.FitAndFunGym.util.ValidateUtil;
+
 import java.util.List;
 
 
@@ -31,7 +34,7 @@ public class ExerciseService {
 
     @Transactional(readOnly = true)
     public Exercise getById(Long id) {
-        exerciseValidator.doesExistById(id);
+        exerciseValidator.doesExist(id);
         return exerciseRepository.findById(id).get();
     }
 
@@ -43,7 +46,7 @@ public class ExerciseService {
 
     @Transactional
     public void delete(Long id) {
-        exerciseValidator.doesExistById(id);
+        exerciseValidator.doesExist(id);
         exerciseRepository.deleteById(id);
     }
 
@@ -67,5 +70,17 @@ public class ExerciseService {
 //
 //        return exerciseRepository.save(existing);
 //    }
+
+    @Transactional(readOnly = true)
+    public List<ExerciseResponseDto> findByMuscleGroup(String muscleGroup){
+        ValidateUtil.isValid(muscleGroup, "Muscle group");
+        return exerciseRepository.findByMuscleGroupContaining(muscleGroup);
+    }
+
+    @Transactional(readOnly = true)
+    public String getExerciseDescription(String exName){
+        exerciseValidator.doesExist(exName);
+        return exerciseRepository.getExerciseDescription(exName);
+    }
 
 }
