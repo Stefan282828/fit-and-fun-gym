@@ -1,9 +1,14 @@
 package project.FitAndFunGym.service;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.FitAndFunGym.dto.ExerciseDto.ExerciseResponseDto;
 import project.FitAndFunGym.entity.Exercise;
+import project.FitAndFunGym.mapper.ExerciseMapper;
 import project.FitAndFunGym.repository.ExerciseRepository;
 import project.FitAndFunGym.repository.TrainingPlanRepository;
 import project.FitAndFunGym.validator.ExerciseValidator;
@@ -28,8 +33,10 @@ public class ExerciseService {
     }
 
     @Transactional(readOnly = true)
-    public List<Exercise> getAll() {
-        return exerciseRepository.findAll();
+    public Page<ExerciseResponseDto> getAll(int page, int size, String sortField, String sortDirection) {
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortField);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return exerciseRepository.findAll(pageable).map(ExerciseMapper::toDto);
     }
 
     @Transactional(readOnly = true)

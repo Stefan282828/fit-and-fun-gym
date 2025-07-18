@@ -33,6 +33,15 @@ public class TrainingPlan {
     @OneToMany(mappedBy = "trainingPlan", cascade = CascadeType.ALL)
     private Set<UserTrainingPlan> users = new HashSet<>();
 
+    public TrainingPlan(Long id, String name, String goal, String difficulty, String duration, Set<Exercise> exercises, Set<UserTrainingPlan> users) {
+        this.id = id;
+        this.name = name;
+        this.goal = goal;
+        this.difficulty = difficulty;
+        this.duration = duration;
+        this.exercises = exercises;
+        this.users = users;
+    }
 
     public Set<UserTrainingPlan> getUsers() {
         return users;

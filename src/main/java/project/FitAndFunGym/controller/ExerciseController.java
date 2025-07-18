@@ -1,5 +1,6 @@
 package project.FitAndFunGym.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +21,11 @@ public class ExerciseController {
     }
 
     @GetMapping("/exercises")
-    public ResponseEntity<List<Exercise>> getAll() {
-        return ResponseEntity.ok(exerciseService.getAll());
+    public ResponseEntity<Page<ExerciseResponseDto>> getAll(@RequestParam(name = "page", defaultValue = "0")  int page,
+                                                            @RequestParam(name = "size", defaultValue = "5")  int size,
+                                                            @RequestParam(name = "sortField", defaultValue = "name")  String sortField,
+                                                            @RequestParam(name = "sortDirection", defaultValue = "ASC")  String sortDirection){
+        return ResponseEntity.ok(exerciseService.getAll(page, size, sortField, sortDirection));
     }
 
     @GetMapping("/exercises/{id}")

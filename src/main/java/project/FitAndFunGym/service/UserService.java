@@ -43,9 +43,10 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserResponseDto> getAll(){
-        List<User> users = userRepository.findAll();
-        return  UserMapper.toDtoList(users);
+    public Page<UserResponseDto> getAll(int page, int size, String sortField, String sortDirection){
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortField);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return userRepository.findAll(pageable).map(UserMapper::toDto);
     }
 
     @Transactional(readOnly = true)

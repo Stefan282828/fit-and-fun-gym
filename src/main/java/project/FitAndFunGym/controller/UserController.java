@@ -25,8 +25,11 @@ public class UserController {
     }
 
     @GetMapping(value = "/users")
-    public ResponseEntity<List<UserResponseDto>> getAll() {
-        return ResponseEntity.ok(userService.getAll());
+    public ResponseEntity<Page<UserResponseDto>> getAll(@RequestParam(name = "page", defaultValue = "0")  int page,
+                                                        @RequestParam(name = "size", defaultValue = "5")  int size,
+                                                        @RequestParam(name = "sortField", defaultValue = "name")  String sortField,
+                                                        @RequestParam(name = "sortDirection", defaultValue = "DESC")  String sortDirection) {
+        return ResponseEntity.ok(userService.getAll(page, size, sortField, sortDirection));
     }
 
     @GetMapping(value = "/users/{id}")
