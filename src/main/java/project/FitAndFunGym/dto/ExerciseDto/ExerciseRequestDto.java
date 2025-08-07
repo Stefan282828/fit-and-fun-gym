@@ -1,8 +1,5 @@
 package project.FitAndFunGym.dto.ExerciseDto;
 
-import project.FitAndFunGym.entity.TrainingPlan;
-
-import java.util.Set;
 
 public class ExerciseRequestDto {
 
@@ -10,14 +7,16 @@ public class ExerciseRequestDto {
     private String name;
     private String description;
     private String muscleGroup;
-    private Set<TrainingPlan> trainingPlans;
+    private String equipmentNeeded;
+    private String difficultyLevel;
 
-    public ExerciseRequestDto(Long id, String name, String description, String muscleGroup, Set<TrainingPlan> trainingPlans) {
+    public ExerciseRequestDto(Long id, String name, String description, String muscleGroup, String equipmentNeeded, String difficultyLevel) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.muscleGroup = muscleGroup;
-        this.trainingPlans = trainingPlans;
+        this.equipmentNeeded = equipmentNeeded;
+        this.difficultyLevel = difficultyLevel;
     }
 
     public Long getId() {
@@ -52,11 +51,19 @@ public class ExerciseRequestDto {
         this.muscleGroup = muscleGroup;
     }
 
-    public Set<TrainingPlan> getTrainingPlans() {
-        return trainingPlans;
+    public String getEquipmentNeeded() {
+        return equipmentNeeded;
     }
 
-    public void setTrainingPlans(Set<TrainingPlan> trainingPlans) {
-        this.trainingPlans = trainingPlans;
+    public void setEquipmentNeeded(String equipmentNeeded) {
+        this.equipmentNeeded = equipmentNeeded;
+    }
+
+    public String getDifficultyLevel() {
+        return difficultyLevel;
+    }
+
+    public void setDifficultyLevel(String difficultyLevel) {
+        this.difficultyLevel = difficultyLevel;
     }
 }

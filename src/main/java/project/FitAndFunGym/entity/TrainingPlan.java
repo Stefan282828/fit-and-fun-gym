@@ -22,25 +22,27 @@ public class TrainingPlan {
     private String difficulty;
     @Column(name = "duration")
     private String duration;
-    @ManyToMany
-    @JoinTable(
-            name = "training_plan_exercise",
-            joinColumns = @JoinColumn(name = "training_plan_id"),
-            inverseJoinColumns = @JoinColumn (name = "exercise_id")
-    )
-    private Set<Exercise> exercises;
+    
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+    
+    @Column(name = "created_by_coach_id")
+    private Long createdByCoachId; // Reference to the coach who created this plan
 
     @OneToMany(mappedBy = "trainingPlan", cascade = CascadeType.ALL)
     private Set<UserTrainingPlan> users = new HashSet<>();
 
-    public TrainingPlan(Long id, String name, String goal, String difficulty, String duration, Set<Exercise> exercises, Set<UserTrainingPlan> users) {
+    @OneToMany(mappedBy = "trainingPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<DailyPlan> dailyPlans = new HashSet<>();
+
+    public TrainingPlan(Long id, String name, String goal, String difficulty, String duration, String description, Long createdByCoachId) {
         this.id = id;
         this.name = name;
         this.goal = goal;
         this.difficulty = difficulty;
         this.duration = duration;
-        this.exercises = exercises;
-        this.users = users;
+        this.description = description;
+        this.createdByCoachId = createdByCoachId;
     }
 
     public Set<UserTrainingPlan> getUsers() {
@@ -51,12 +53,12 @@ public class TrainingPlan {
         this.users = users;
     }
 
-    public Set<Exercise> getExercises() {
-        return exercises;
+    public Set<DailyPlan> getDailyPlans() {
+        return dailyPlans;
     }
 
-    public void setExercises(Set<Exercise> exercises) {
-        this.exercises = exercises;
+    public void setDailyPlans(Set<DailyPlan> dailyPlans) {
+        this.dailyPlans = dailyPlans;
     }
 
     public TrainingPlan(){
@@ -101,5 +103,21 @@ public class TrainingPlan {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getCreatedByCoachId() {
+        return createdByCoachId;
+    }
+
+    public void setCreatedByCoachId(Long createdByCoachId) {
+        this.createdByCoachId = createdByCoachId;
     }
 }

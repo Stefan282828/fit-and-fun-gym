@@ -2,18 +2,13 @@ package project.FitAndFunGym.mapper;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
-import project.FitAndFunGym.dto.ExerciseDto.ExerciseRequestDto;
-import project.FitAndFunGym.dto.ExerciseDto.ExerciseResponseDto;
 import project.FitAndFunGym.dto.TrainingPlanDto.TrainingPlanRequestDto;
 import project.FitAndFunGym.dto.TrainingPlanDto.TrainingPlanResponseDto;
-import project.FitAndFunGym.entity.Exercise;
 import project.FitAndFunGym.entity.TrainingPlan;
 import project.FitAndFunGym.exception.BadRequestException;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class TrainingPlanMapper {
@@ -24,24 +19,23 @@ public class TrainingPlanMapper {
         }
         return new TrainingPlan(trainingPlanRequestDto.getId(),
                 trainingPlanRequestDto.getName(),
+                trainingPlanRequestDto.getGoal(),
                 trainingPlanRequestDto.getDifficulty(),
                 trainingPlanRequestDto.getDuration(),
-                trainingPlanRequestDto.getGoal(),
-                trainingPlanRequestDto.getExercises(),
-                trainingPlanRequestDto.getUsers());
+                trainingPlanRequestDto.getDescription(),
+                trainingPlanRequestDto.getCreatedByCoachId());
     }
 
     public static TrainingPlanResponseDto toDto (TrainingPlan trainingPlan){
         if (Objects.isNull(trainingPlan)){
             throw new BadRequestException("Training plan is null");
         }
-        Set<String> exercisesName = trainingPlan.getExercises().stream().map(Exercise::getName).collect(Collectors.toSet());
 
         return new TrainingPlanResponseDto(trainingPlan.getName(),
+                trainingPlan.getGoal(),
                 trainingPlan.getDifficulty(),
                 trainingPlan.getDuration(),
-                trainingPlan.getGoal(),
-                exercisesName);
+                trainingPlan.getDescription());
     }
 
     public static List<TrainingPlan> toEntityList (List<TrainingPlanRequestDto> trainingPlanRequestDtoList){

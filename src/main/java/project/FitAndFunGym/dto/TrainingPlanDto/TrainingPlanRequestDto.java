@@ -1,10 +1,5 @@
 package project.FitAndFunGym.dto.TrainingPlanDto;
 
-import project.FitAndFunGym.entity.Exercise;
-import project.FitAndFunGym.entity.TrainingPlan;
-import project.FitAndFunGym.entity.UserTrainingPlan;
-
-import java.util.Set;
 
 public class TrainingPlanRequestDto {
 
@@ -13,17 +8,17 @@ public class TrainingPlanRequestDto {
     private String goal;
     private String difficulty;
     private String duration;
-    private Set<Exercise> exercises;
-    private Set<UserTrainingPlan> users;
+    private String description;
+    private Long createdByCoachId;
 
-    public TrainingPlanRequestDto(Long id, String name, String goal, String difficulty, String duration, Set<Exercise> exercises, Set<UserTrainingPlan> users) {
+    public TrainingPlanRequestDto(Long id, String name, String goal, String difficulty, String duration, String description, Long createdByCoachId) {
         this.id = id;
         this.name = name;
         this.goal = goal;
         this.difficulty = difficulty;
         this.duration = duration;
-        this.exercises = exercises;
-        this.users = users;
+        this.description = description;
+        this.createdByCoachId = createdByCoachId;
     }
 
     public Long getId() {
@@ -66,19 +61,19 @@ public class TrainingPlanRequestDto {
         this.duration = duration;
     }
 
-    public Set<Exercise> getExercises() {
-        return exercises;
+    public String getDescription() {
+        return description;
     }
 
-    public void setExercises(Set<Exercise> exercises) {
-        this.exercises = exercises;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Set<UserTrainingPlan> getUsers() {
-        return users;
+    public Long getCreatedByCoachId() {
+        return createdByCoachId;
     }
 
-    public void setUsers(Set<UserTrainingPlan> users) {
-        this.users = users;
+    public void setCreatedByCoachId(Long createdByCoachId) {
+        this.createdByCoachId = createdByCoachId;
     }
 }

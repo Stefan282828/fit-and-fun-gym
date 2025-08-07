@@ -4,10 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import project.FitAndFunGym.dto.ExerciseDto.ExerciseRequestDto;
 import project.FitAndFunGym.dto.ExerciseDto.ExerciseResponseDto;
-import project.FitAndFunGym.dto.UserDto.UserRequestDto;
-import project.FitAndFunGym.dto.UserDto.UserResponseDto;
 import project.FitAndFunGym.entity.Exercise;
-import project.FitAndFunGym.entity.User;
 import project.FitAndFunGym.exception.BadRequestException;
 
 import java.util.List;
@@ -24,7 +21,8 @@ public class ExerciseMapper {
                 exerciseRequestDto.getName(),
                 exerciseRequestDto.getDescription(),
                 exerciseRequestDto.getMuscleGroup(),
-                exerciseRequestDto.getTrainingPlans());
+                exerciseRequestDto.getEquipmentNeeded(),
+                exerciseRequestDto.getDifficultyLevel());
     }
 
     public static ExerciseResponseDto toDto (Exercise exercise){
@@ -33,7 +31,9 @@ public class ExerciseMapper {
         }
         return new ExerciseResponseDto(exercise.getName(),
                 exercise.getDescription(),
-                exercise.getMuscleGroup());
+                exercise.getMuscleGroup(),
+                exercise.getEquipmentNeeded(),
+                exercise.getDifficultyLevel());
     }
 
     public static List<Exercise> toEntityList (List<ExerciseRequestDto> exerciseRequestDtoList){

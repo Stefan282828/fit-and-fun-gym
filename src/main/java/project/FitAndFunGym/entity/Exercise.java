@@ -18,15 +18,20 @@ public class Exercise {
     private String description;
     @Column(name = "muscleGroup")
     private String muscleGroup;
-    @ManyToMany(mappedBy = "exercises")
-    private Set<TrainingPlan> trainingPlans;
+    
+    @Column(name = "equipment_needed")
+    private String equipmentNeeded; // e.g., "Dumbbells", "Barbell", "Bodyweight"
+    
+    @Column(name = "difficulty_level")
+    private String difficultyLevel; // e.g., "Beginner", "Intermediate", "Advanced"
 
-    public Exercise(Long id, String name, String description, String muscleGroup, Set<TrainingPlan> trainingPlans) {
+    public Exercise(Long id, String name, String description, String muscleGroup, String equipmentNeeded, String difficultyLevel) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.muscleGroup = muscleGroup;
-        this.trainingPlans = trainingPlans;
+        this.equipmentNeeded = equipmentNeeded;
+        this.difficultyLevel = difficultyLevel;
     }
 
     public Exercise(){
@@ -64,11 +69,19 @@ public class Exercise {
         this.muscleGroup = muscleGroup;
     }
 
-    public Set<TrainingPlan> getTrainingPlans() {
-        return trainingPlans;
+    public String getEquipmentNeeded() {
+        return equipmentNeeded;
     }
 
-    public void setTrainingPlans(Set<TrainingPlan> trainingPlans) {
-        this.trainingPlans = trainingPlans;
+    public void setEquipmentNeeded(String equipmentNeeded) {
+        this.equipmentNeeded = equipmentNeeded;
+    }
+
+    public String getDifficultyLevel() {
+        return difficultyLevel;
+    }
+
+    public void setDifficultyLevel(String difficultyLevel) {
+        this.difficultyLevel = difficultyLevel;
     }
 }

@@ -1,8 +1,5 @@
 package project.FitAndFunGym.dto.TrainingPlanDto;
 
-import project.FitAndFunGym.entity.Exercise;
-
-import java.util.Set;
 
 public class TrainingPlanResponseDto {
 
@@ -10,14 +7,14 @@ public class TrainingPlanResponseDto {
     private String goal;
     private String difficulty;
     private String duration;
-    private Set<String> exercisesName;
+    private String description;
 
-    public TrainingPlanResponseDto(String name, String goal, String difficulty, String duration, Set<String> exercisesName) {
+    public TrainingPlanResponseDto(String name, String goal, String difficulty, String duration, String description) {
         this.name = name;
         this.goal = goal;
         this.difficulty = difficulty;
         this.duration = duration;
-        this.exercisesName = exercisesName;
+        this.description = description;
     }
 
     public String getName() {
@@ -52,11 +49,11 @@ public class TrainingPlanResponseDto {
         this.duration = duration;
     }
 
-    public Set<String> getExercisesName() {
-        return exercisesName;
+    public String getDescription() {
+        return description;
     }
 
-    public void setExercisesName(Set<String> exercisesName) {
-        this.exercisesName = exercisesName;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
