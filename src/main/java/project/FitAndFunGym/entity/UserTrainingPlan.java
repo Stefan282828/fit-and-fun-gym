@@ -11,12 +11,12 @@ public class UserTrainingPlan {
     @EmbeddedId
     private  UserTrainingPlanId id = new UserTrainingPlanId();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("trainingPlanId")
     @JoinColumn(name = "training_plan_id")
     private TrainingPlan trainingPlan;

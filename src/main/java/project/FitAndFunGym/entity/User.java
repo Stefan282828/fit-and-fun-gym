@@ -39,7 +39,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserTrainingPlan> trainingPlans = new HashSet<>();
 
     public User(String name, String lastName, String username, String email, String password, LocalDate dateOfBirth, Role role) {

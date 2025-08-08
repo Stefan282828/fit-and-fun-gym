@@ -30,7 +30,7 @@ public class TrainingPlan {
     )
     private Set<Exercise> exercises;
 
-    @OneToMany(mappedBy = "trainingPlan", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "trainingPlan", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserTrainingPlan> users = new HashSet<>();
 
     public TrainingPlan(Long id, String name, String goal, String difficulty, String duration, Set<Exercise> exercises, Set<UserTrainingPlan> users) {
