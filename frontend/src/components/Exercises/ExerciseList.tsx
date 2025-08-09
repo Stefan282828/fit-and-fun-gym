@@ -78,16 +78,23 @@ const ExerciseList: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      </div>
+    );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900">Exercise Library</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Exercise Library</h1>
+          <p className="text-gray-600 mt-1">Browse and manage workout exercises</p>
+        </div>
         <button
           onClick={() => setShowForm(true)}
-          className="btn-primary flex items-center space-x-2"
+          className="btn-primary"
         >
           <Plus className="h-4 w-4" />
           <span>Add Exercise</span>
@@ -96,9 +103,9 @@ const ExerciseList: React.FC = () => {
 
       {/* Search Filter */}
       <div className="card">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-end space-x-4">
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
               Filter by Muscle Group
             </label>
             <div className="relative">
@@ -114,7 +121,7 @@ const ExerciseList: React.FC = () => {
           </div>
           <button
             onClick={() => setMuscleGroupFilter('')}
-            className="btn-secondary mt-6"
+            className="btn-secondary"
           >
             Clear Filter
           </button>
@@ -123,43 +130,43 @@ const ExerciseList: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredExercises.map((exercise) => (
-          <div key={exercise.id} className="card hover:shadow-lg transition-shadow">
+          <div key={exercise.id} className="card group hover:shadow-soft transition-all duration-200">
             <div className="flex justify-between items-start mb-3">
-              <h3 className="text-lg font-semibold text-gray-900">{exercise.name}</h3>
+              <h3 className="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition-colors">{exercise.name}</h3>
               <div className="flex space-x-2">
                 <button
                   onClick={() => handleEdit(exercise)}
-                  className="text-primary-600 hover:text-primary-900"
+                  className="text-primary-600 hover:text-primary-700 transition-colors"
                 >
                   <Edit className="h-4 w-4" />
                 </button>
                 <button
                   onClick={() => handleDelete(exercise.id!)}
-                  className="text-red-600 hover:text-red-900"
+                  className="text-red-600 hover:text-red-700 transition-colors"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
             </div>
 
-            <p className="text-gray-600 text-sm mb-3 line-clamp-3">
+            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
               {exercise.description}
             </p>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Muscle Group:</span>
-                <span className="text-sm text-gray-900">{exercise.muscleGroup}</span>
+                <span className="text-sm font-semibold text-gray-700">Muscle Group:</span>
+                <span className="text-sm text-gray-900 font-medium">{exercise.muscleGroup}</span>
               </div>
               
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Equipment:</span>
-                <span className="text-sm text-gray-900">{exercise.equipmentNeeded}</span>
+                <span className="text-sm font-semibold text-gray-700">Equipment:</span>
+                <span className="text-sm text-gray-900 font-medium">{exercise.equipmentNeeded}</span>
               </div>
               
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Difficulty:</span>
-                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getDifficultyColor(exercise.difficultyLevel)}`}>
+                <span className="text-sm font-semibold text-gray-700">Difficulty:</span>
+                <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${getDifficultyColor(exercise.difficultyLevel)}`}>
                   {exercise.difficultyLevel}
                 </span>
               </div>
@@ -169,22 +176,22 @@ const ExerciseList: React.FC = () => {
       </div>
 
       {!muscleGroupFilter && (
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-700">
+        <div className="flex items-center justify-between bg-white rounded-xl p-4 shadow-card">
+          <div className="text-sm text-gray-600">
             Showing {exercises.number * exercises.size + 1} to {Math.min((exercises.number + 1) * exercises.size, exercises.totalElements)} of {exercises.totalElements} results
           </div>
           <div className="flex space-x-2">
             <button
               onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
               disabled={currentPage === 0}
-              className="btn-secondary disabled:opacity-50"
+              className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Previous
             </button>
             <button
               onClick={() => setCurrentPage(Math.min(exercises.totalPages - 1, currentPage + 1))}
               disabled={currentPage >= exercises.totalPages - 1}
-              className="btn-secondary disabled:opacity-50"
+              className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </button>
